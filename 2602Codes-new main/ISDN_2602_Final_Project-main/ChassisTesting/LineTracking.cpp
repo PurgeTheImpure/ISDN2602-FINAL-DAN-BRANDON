@@ -1,37 +1,56 @@
 #include "LineTracking.hpp"
 
-void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t RightSpeed, uint8_t MapCase, uint8_t &CornerNumApproach){
+void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t RightSpeed, int Task, int &CornerNumApproach){
   //Serial.println(getTagUID());
 
-  if (CornerNumApproach == 100) {
-    CornerNumApproach = 0;
-    Motion::Boost(650, 700);
-    delay(600);
+
+  //LIGHT CONTROL FOR TASK 2!!!!
+  if (CornerNumApproach == -1) {
     Motor::Stop();
-    delay(500);
+    delay(30);
   }
-  else if (CornerNumApproach == 2) {
-    Motion::Rightwards(LeftSpeed, RightSpeed);
-    delay(800);
-    CornerNumApproach = 0;
-  }
-  else if (CornerNumApproach == 3) {
-    Motion::Forwards(LeftSpeed, RightSpeed);
-    delay(500);
-    CornerNumApproach = 0;
-  }
-  else if (CornerNumApproach == 4) {
-    Motion::Forwards(LeftSpeed, RightSpeed);
-    delay(500);
-    CornerNumApproach = 0;
-  }
-  else if (CornerNumApproach == 5) {
-    Motor::Stop();
-    delay(3000);
-    CornerNumApproach = 0;
+  
+  switch(CornerNumApproach) {
+
+    case 100:
+      Motion::Boost(350, 365);
+      delay(100);
+      Motion::Boost(650, 666);
+      delay(800);
+      Motor::Stop();
+      delay(500);
+      CornerNumApproach = 0;
+      break;
+    
+    case 2: 
+      Motion::Rightwards(LeftSpeed, RightSpeed);
+      delay(700);
+      CornerNumApproach = 0;
+      break;
+    
+    case 3: 
+      Motion::Forwards(LeftSpeed, RightSpeed);
+      delay(500);
+      CornerNumApproach = 0;
+      break;
+    
+    case 4: 
+      Motion::Forwards(LeftSpeed, RightSpeed);
+      delay(500);
+      CornerNumApproach = 0;
+      break;
+    
+    case 5:
+      Motor::Stop();
+      delay(3000);
+      CornerNumApproach = 0;
+      break;
+
+    default:
+      break;
+
   }
 
-  else {
   switch (Case) {
     case OnTrack:
       Motion::Forwards(LeftSpeed, RightSpeed);
@@ -79,7 +98,7 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
 
     break;
   }
-  }
+  
 
   //String x_fuckyou = 20D96691;
   /*

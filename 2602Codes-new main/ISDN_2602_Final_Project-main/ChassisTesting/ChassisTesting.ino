@@ -400,7 +400,7 @@ String getTagUID() {
 
 /*Define a Storage to store the previous tagUID*/
 String prevRFIDTag;
-uint8_t CornerNumApproach = 0;
+int CornerNumApproach = 0;
 uint8_t MapCase_LineTrack = 0;
 
 /*User Task for RFID Tag Reader*/
@@ -429,7 +429,7 @@ void RFIDTagReader(void *pvPara) {
 
       if (currenttagUID == "404b6791" || currenttagUID == "a0406791" || currenttagUID == "10d26691")
         CornerNumApproach = 1;
-      else if (currenttagUID == "404b6791" || currenttagUID == "a0406791" || currenttagUID == "10d26691")
+      else if (currenttagUID == "404b6791" || currenttagUID == "a0406791" || currenttagUID == "10d26691" || currenttagUID == "30406791")
         CornerNumApproach = 2;
       else if (currenttagUID == "20476891" || currenttagUID == "60D66691" || currenttagUID == "60d26691")
         CornerNumApproach = 3;
@@ -439,10 +439,26 @@ void RFIDTagReader(void *pvPara) {
         CornerNumApproach = 5;
       else if (currenttagUID == "50306891" || currenttagUID == "b0326891" || currenttagUID == "d0386891")
         CornerNumApproach = 6;
-
+      else if (currenttagUID == "e03d6891" || currenttagUID == "901e6991" || currenttagUID == "50346891")
+        CornerNumApproach = 7;
+      else if (currenttagUID == "20266991" || currenttagUID == "200d6891")
+        CornerNumApproach = 8;
+      else if (currenttagUID == "d03c6891" || currenttagUID == "10166991" || currenttagUID == "f0316891")
+        CornerNumApproach = 9;
+      else if (currenttagUID == "90176991" || currenttagUID == "101e6991")
+        CornerNumApproach = 10;
+      else if (currenttagUID == "b02b6891" || currenttagUID == "30236891" || currenttagUID == "b0236891")
+        CornerNumApproach = 11;
+      else if (currenttagUID == "00d76791" || currenttagUID == "20da6791" || currenttagUID == "a0d96791")
+        CornerNumApproach = 12;
+      else if (currenttagUID == "e0246891" || currenttagUID == "c0066991" || currenttagUID == "60246891")
+        CornerNumApproach = 13;
+      else if (currenttagUID == "50466791" || currenttagUID == "403c6791" || currenttagUID == "c03c6791")
+        CornerNumApproach = 14;
+      // Boost code for bridge
       else if (currenttagUID == "20db6791" || currenttagUID == "a0da6791" || currenttagUID == "702b6891" || currenttagUID == "802a6891" || currenttagUID == "f0296891") 
         CornerNumApproach = 100;
-
+      // Default
       else
         CornerNumApproach = 0;
 
@@ -454,7 +470,7 @@ void RFIDTagReader(void *pvPara) {
     // Serial.println(currenttagUID);
     /*----------------------------------------------------*/
     /*A delay must be added inside each User Task*/
-    vTaskDelay(3);
+    vTaskDelay(1);
       
     }
 }
@@ -475,7 +491,7 @@ void LineTrackingTask(void *pvPara) {
   while(true){
     
     
-    LineTracking::FollowingLine(IR::Tracking(), LeftSpeed, RightSpeed, MapCase_LineTrack, CornerNumApproach);
+    LineTracking::FollowingLine(IR::Tracking(), LeftSpeed, RightSpeed, Task, CornerNumApproach);
     // delay(1);
 
     /*A delay must be added inside each User Task*/    
@@ -513,6 +529,21 @@ void FireBaseTask(void *pvPara) {
     // This required when different AsyncClients than used in FirebaseApp assigned to the Realtime database functions.
     Database.loop();
 
+
+
+    // TRAFFIC LIGHT ADJUSTMENTS!
+    if (Task == 2) {
+      // 0 = red || 1 = green || 2 = yellow
+      if (intersectionLights.intersectionLights[1].state == 0) {
+        CornerNumApproach = -1;
+        delay(500);
+      }
+      else {
+        CornerNumApproach = 0;
+      }
+      
+    }
+
     // Debug for Firebase --------------
     /*
     Serial.print("Exam_State = ");
@@ -528,7 +559,7 @@ void FireBaseTask(void *pvPara) {
     */
     //---------------------------------
     /*A delay must be added inside each User Task*/
-    vTaskDelay(10);
+    vTaskDelay(0);
   }
 }
 
@@ -889,7 +920,7 @@ Serial.println("---------Initialized---------");
   // xTaskCreatePinnedToCore(Wifitask, "Connect to Wifi", 10000, NULL, 3, &WifitaskTCB, 0);
   xTaskCreatePinnedToCore(Blink, "Blink", 2048, NULL, 1, &BlinkTaskTCB, 1);
   xTaskCreatePinnedToCore(RFIDTagReader, "RFIDReader", 2048, NULL, 3, &RFIDTagReaderTCB, 1);
-  xTaskCreatePinnedToCore(LineTrackingTask, "LineTracking", 10000, NULL, 3, &LineTrackingTaskTCB, 1);
+  xTaskCreatePinnedToCore(LineTrackingTask, "LineTracking", 10000, NULL, 2, &LineTrackingTaskTCB, 1);
   xTaskCreatePinnedToCore(calculateRPMTask, "calculteRPM", 10000, NULL, 1, &calculateRPMTaskTCB, 1);
   xTaskCreatePinnedToCore(ComputeAlgoTask, "ComputeAlgo", 10000, NULL, 1, &ComputeAlgoTaskTCB, 1);
 /*Adding a small delay for the setup()*/

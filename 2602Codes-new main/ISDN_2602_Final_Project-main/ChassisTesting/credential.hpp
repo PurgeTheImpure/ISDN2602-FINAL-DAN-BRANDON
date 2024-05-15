@@ -1,6 +1,6 @@
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "Bow Before Me"
-#define WIFI_PASSWORD "callmedaddy"
+#define WIFI_SSID "The Dark Web"
+#define WIFI_PASSWORD "freewifi"
 
 /* 2. Define the API Key */
 #define API_KEY "AIzaSyCWzx6g2Qmqdr-6lDt4pgjJJDBZBfAsFP0"

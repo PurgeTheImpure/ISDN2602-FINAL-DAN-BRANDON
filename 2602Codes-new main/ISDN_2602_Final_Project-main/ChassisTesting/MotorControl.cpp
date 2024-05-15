@@ -102,27 +102,60 @@ void Motor::Stop(){
     delay(5);
   
 };
+/*WE DO NOT USE THE CODE BELOW*/
+/*WE DO NOT USE THE CODE BELOW*/
+/*WE DO NOT USE THE CODE BELOW*/
+/*To Find the Relationship between RPM and PWM to adjust the PWM using Target RPM*/
+float Motor::RPMtoPWM(float TargetRPM, uint8_t Wheel){
+    float TargetPWM = 0.0f;
+    /*Be Awared of 2 Motor may have a different PWM and RPM ratio*/
+    switch (Wheel)
+    {
+    case LeftWheel:
+    /*Find the math relationship
+      it's not a linear relationship 
+      But can make the estimate value by 2 - 3 range and apply linear estimation*/
+    TargetPWM = ((TargetRPM - 400.0f)/20.0f) * 60.0f ;
+
+    if(TargetPWM > 1024.0f)
+    TargetPWM = 1024.0f;
+
+    return TargetPWM;
+
+
+    case RightWheel:
+    TargetPWM = TargetRPM;
+
+    if(TargetPWM > 1024.0f)
+    TargetPWM = 1024.0f;
+
+    return TargetPWM;
+    }
+}
+/*WE DO NOT USE THE CODE ABOVE*/
+/*WE DO NOT USE THE CODE ABOVE*/
+/*WE DO NOT USE THE CODE ABOVE*/
 
 // More Speeds for fine tuning for me //
 //Forards
-volatile float FW_LeftSpeed = 225.0f; // 0.0f - 1024.0f
-volatile float FW_RightSpeed = 250.0f; // 0.0f - 1024.0f
+volatile float FW_LeftSpeed = 220.0f; // 0.0f - 1024.0f
+volatile float FW_RightSpeed = 218.0f; // 0.0f - 1024.0f
 // Backwards
 volatile float BW_LeftSpeed = 190.0f; // 0.0f - 1024.0f
 volatile float BW_RightSpeed = 190.0f; // 0.0f - 1024.0f
 //Turn Right
-volatile float TR_LeftSpeed = 400.0f; // 0.0f - 1024.0f
-volatile float TR_RightSpeed = 200.0f; // 0.0f - 1024.0f
+volatile float TR_LeftSpeed = 600.0f; // 0.0f - 1024.0f
+volatile float TR_RightSpeed = 250.0f; // 0.0f - 1024.0f
 //Turn Left
-volatile float TL_LeftSpeed = 150.0f; // 0.0f - 1024.0f
-volatile float TL_RightSpeed = 400.0f; // 0.0f - 1024.0f
+volatile float TL_LeftSpeed = 220.0f; // 0.0f - 1024.0f
+volatile float TL_RightSpeed = 600.0f; // 0.0f - 1024.0f
 
 // Follow line code, small turns only
-volatile float FolRT_LeftSpeed = 380.0f; // 0.0f - 1024.0f
-volatile float FolRT_RightSpeed = 200.0f; // 0.0f - 1024.0f
+volatile float FolRT_LeftSpeed = 500.0f; // 0.0f - 1024.0f
+volatile float FolRT_RightSpeed = 250.0f; // 0.0f - 1024.0f
 
-volatile float FolLT_LeftSpeed = 150.0f; // 0.0f - 1024.0f
-volatile float FolLT_RightSpeed = 400.0f; // 0.0f - 1024.0f
+volatile float FolLT_LeftSpeed = 250.0f; // 0.0f - 1024.0f
+volatile float FolLT_RightSpeed = 510.0f; // 0.0f - 1024.0f
 
 
 void Motion::Forwards(uint16_t LeftSpeed, uint16_t RightSpeed){
@@ -144,46 +177,32 @@ void Motion::Backwards(uint16_t LeftSpeed, uint16_t RightSpeed){
   Servo::TrunDeg(92);
 };  
 
-/*
-void Motion::Rightwards(uint16_t LeftSpeed, uint16_t RightSpeed){
-  Motor::Moving_Clockwise(TR_RightSpeed, RightWheel );
-  Motor::Moving_AntiClockwise(TR_LeftSpeed, LeftWheel);
-  Servo::TrunDeg(135);
-  
-};
-
-void Motion::Leftwards(uint16_t LeftSpeed, uint16_t RightSpeed){
-  Motor::Moving_AntiClockwise(TL_RightSpeed, RightWheel);
-  Motor::Moving_Clockwise(TL_LeftSpeed, LeftWheel);
-  Servo::TrunDeg(45);
-};
-*/
 
 // Code I planned to use instead of PID
 void Motion::Rightwards(uint16_t LeftSpeed, uint16_t RightSpeed){
+  Servo::TrunDeg(135);
   Motor::Moving_Clockwise(TR_RightSpeed, RightWheel);
   Motor::Moving_AntiClockwise(TR_LeftSpeed, LeftWheel);
-  Servo::TrunDeg(135);
   
 };
 
 void Motion::Leftwards(uint16_t LeftSpeed, uint16_t RightSpeed){
+  Servo::TrunDeg(45);
   Motor::Moving_AntiClockwise(TL_RightSpeed, RightWheel);
   Motor::Moving_Clockwise(TL_LeftSpeed, LeftWheel);
-  Servo::TrunDeg(45);
 };
 
 
 void Motion::Fol_Rightwards(uint16_t LeftSpeed, uint16_t RightSpeed){
+  Servo::TrunDeg(115);
   Motor::Moving_Clockwise(FolRT_RightSpeed, RightWheel);
   Motor::Moving_AntiClockwise(FolRT_LeftSpeed, LeftWheel);
-  Servo::TrunDeg(115);
   
 };
 
 void Motion::Fol_Leftwards(uint16_t LeftSpeed, uint16_t RightSpeed){
+  Servo::TrunDeg(65);
   Motor::Moving_AntiClockwise(FolLT_RightSpeed, RightWheel);
   Motor::Moving_Clockwise(FolLT_LeftSpeed, LeftWheel);
-  Servo::TrunDeg(65);
 };
 
