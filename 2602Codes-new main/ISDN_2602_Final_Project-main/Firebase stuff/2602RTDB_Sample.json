@@ -1,0 +1,76 @@
+{
+  "car": {
+    "position": {
+      "tag": "00e65791"
+    }
+  },
+  "demo": {
+    "end_point": 1,
+    "start_point": "5",
+    "state": "stopped",
+    "task": 3,
+    "time_left": 120
+  },
+  "intersections": {
+    "intersection_1": {
+      "traffic_lights": {
+        "light_1": {
+          "current_state": "red",
+          "time_remain": 17
+        },
+        "light_2": {
+          "current_state": "green",
+          "time_remain": 15
+        }
+      }
+    },
+    "intersection_2": {
+      "traffic_lights": {
+        "light_1": {
+          "current_state": "red",
+          "time_remain": 17
+        },
+        "light_2": {
+          "current_state": "green",
+          "time_remain": 15
+        }
+      }
+    },
+    "intersection_3": {
+      "traffic_lights": {
+        "light_1": {
+          "current_state": "red",
+          "time_remain": 17
+        },
+        "light_2": {
+          "current_state": "green",
+          "time_remain": 15
+        }
+      }
+    },
+    "intersection_4": {
+      "traffic_lights": {
+        "light_1": {
+          "current_state": "red",
+          "time_remain": 17
+        },
+        "light_2": {
+          "current_state": "green",
+          "time_remain": 15
+        }
+      }
+    },
+    "intersection_5": {
+      "traffic_lights": {
+        "light_1": {
+          "current_state": "red",
+          "time_remain": 17
+        },
+        "light_2": {
+          "current_state": "green",
+          "time_remain": 15
+        }
+      }
+    }
+  }
+}
