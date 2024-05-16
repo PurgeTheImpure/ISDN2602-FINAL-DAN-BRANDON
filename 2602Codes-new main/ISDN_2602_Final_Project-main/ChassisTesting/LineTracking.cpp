@@ -261,7 +261,7 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
       if (startpt == 10) {
         if (CornerNumApproach == 9) {
           Motion::Rightwards(LeftSpeed, RightSpeed);
-          delay(turnTime90);
+          delay(444);
           CornerNumApproach = 0;
           return;
         }
@@ -275,7 +275,7 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
       else if (startpt == 8) {
         if (CornerNumApproach == 7) {
           Motion::Rightwards(LeftSpeed, RightSpeed);
-          delay(turnTime90);
+          delay(turnTime90-25);
           CornerNumApproach = 0;
           return;
         }
