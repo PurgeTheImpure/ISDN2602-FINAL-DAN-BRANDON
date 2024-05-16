@@ -89,17 +89,21 @@ void asyncCB(AsyncResult &aResult)
 
 void printResult(AsyncResult &aResult)
 {
-  if (aResult.appEvent().code() > 0) {
+  if (aResult.appEvent().code() > 0)
+  {
     Firebase.printf("Event task: %s, msg: %s, code: %d\n", aResult.uid().c_str(), aResult.appEvent().message().c_str(), aResult.appEvent().code());
   }
 
-  if (aResult.isDebug()) {
+  if (aResult.isDebug())
+  {
     Firebase.printf("Debug task: %s, msg: %s\n", aResult.uid().c_str(), aResult.debug().c_str());
   }
 
-  if (aResult.isError()) {
+  if (aResult.isError())
+  {
     Firebase.printf("Error task: %s, msg: %s, code: %d\n", aResult.uid().c_str(), aResult.error().message().c_str(), aResult.error().code());
   }
+
 
   if (aResult.available()) {
 
@@ -228,7 +232,7 @@ void printResult(AsyncResult &aResult)
       int v2 = RTDB.to<int>();
       float v3 = RTDB.to<float>();
       double v4 = RTDB.to<double>();
-      String v5 = RTDB.to<String>();
+      string v5 = RTDB.to<string>();
     }
 
     else {
@@ -266,7 +270,6 @@ int endpt = 5;   // Example end node
 void ComputeAlgoTask(void *pvPara) {
   /*Setup for the task*/
 
-  
   g.setupGraph();
   // ZERO INDEXED!!
   if (Task == 3 || Task == 4) {
@@ -371,7 +374,7 @@ void ComputeAlgoTask(void *pvPara) {
     }
     Serial.println();
   
-    vTaskDelay(100);
+    vTaskDelay(1000);
   }
 }
 
@@ -413,7 +416,7 @@ void RFIDTagReader(void *pvPara) {
     
     /*DONT CHANGE THE FOLLOWING 2 LINE OF CODE*/
     if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) 
-    vTaskDelay(30);
+    vTaskDelay(40);
 
     /*You may want to setup a check new UID to save procress power
       Comparing the PrevUID and CurrentUID...*/
@@ -427,17 +430,17 @@ void RFIDTagReader(void *pvPara) {
       Serial.println(currenttagUID);
       prevRFIDTag = currenttagUID;
 
-      if (currenttagUID == "404b6791" || currenttagUID == "a0406791" || currenttagUID == "10d26691")
+      if (currenttagUID == "c0cd6791" || currenttagUID == "e0cd6691" || currenttagUID == "40ce6791" || currenttagUID == "d0ce6791")
         CornerNumApproach = 1;
-      else if (currenttagUID == "404b6791" || currenttagUID == "a0406791" || currenttagUID == "10d26691" || currenttagUID == "30406791")
+      else if (currenttagUID == "404b6791" || currenttagUID == "a0406791" || currenttagUID == "10d26691" || currenttagUID == "30406791" )
         CornerNumApproach = 2;
-      else if (currenttagUID == "20476891" || currenttagUID == "60D66691" || currenttagUID == "60d26691")
+      else if (currenttagUID == "20476891" || currenttagUID == "60d66691" || currenttagUID == "60d26691" || currenttagUID == "50d86691")
         CornerNumApproach = 3;
-      else if (currenttagUID == "204e6791" || currenttagUID == "904e6791" || currenttagUID == "404d6791")
+      else if (currenttagUID == "204e6791" || currenttagUID == "904e6791" || currenttagUID == "404d6791" || currenttagUID == "80506791")
         CornerNumApproach = 4;
-      else if (currenttagUID == "50c96791" || currenttagUID == "00506791" || currenttagUID == "d0c86791")
+      else if (currenttagUID == "50c96791" || currenttagUID == "00506791" || currenttagUID == "d0c86791" || currenttagUID == "004f6791")
         CornerNumApproach = 5;
-      else if (currenttagUID == "50306891" || currenttagUID == "b0326891" || currenttagUID == "d0386891")
+      else if (currenttagUID == "30336891" || currenttagUID == "b0326891" || currenttagUID == "d0386891")
         CornerNumApproach = 6;
       else if (currenttagUID == "e03d6891" || currenttagUID == "901e6991" || currenttagUID == "50346891")
         CornerNumApproach = 7;
@@ -451,7 +454,7 @@ void RFIDTagReader(void *pvPara) {
         CornerNumApproach = 11;
       else if (currenttagUID == "00d76791" || currenttagUID == "20da6791" || currenttagUID == "a0d96791")
         CornerNumApproach = 12;
-      else if (currenttagUID == "e0246891" || currenttagUID == "c0066991" || currenttagUID == "60246891")
+      else if (currenttagUID == "e0246891" || currenttagUID == "c0066991" || currenttagUID == "60246891" || currenttagUID == "e02d6891")
         CornerNumApproach = 13;
       else if (currenttagUID == "50466791" || currenttagUID == "403c6791" || currenttagUID == "c03c6791")
         CornerNumApproach = 14;
@@ -459,8 +462,8 @@ void RFIDTagReader(void *pvPara) {
       else if (currenttagUID == "20db6791" || currenttagUID == "a0da6791" || currenttagUID == "702b6891" || currenttagUID == "802a6891" || currenttagUID == "f0296891") 
         CornerNumApproach = 100;
       // Task 1 light junction
-      else if (currenttagUID == "50466791" || currenttagUID == "403c6791" || currenttagUID == "c03c6791")
-        CornerNumApproach = 14;
+      else if (currenttagUID == "a0cb6791" || currenttagUID == "30d16791")
+        CornerNumApproach = 90;
       // Default
       else
         CornerNumApproach = 0;
@@ -544,15 +547,21 @@ void FireBaseTask(void *pvPara) {
     // TRAFFIC LIGHT ADJUSTMENTS!
     if (Task == 2) {
       // 0 = red || 1 = green || 2 = yellow
-      if (CornerNumApproach == 3 || CornerNumApproach == 4) {
-        if (intersectionLights.intersectionLights[1].state == 0) {
+      if (CornerNumApproach == 3) {
+        while (intersectionLights.intersectionLights[1].state == 0) {
           CornerNumApproach = -1;
-          delay(500);
+          LineTracking::FollowingLine(IR::Tracking(), LeftSpeed, RightSpeed, Task, CornerNumApproach);
+          delay(300);
         }
+        CornerNumApproach = 3;
+        LineTracking::FollowingLine(IR::Tracking(), LeftSpeed, RightSpeed, Task, CornerNumApproach);
       }
+      /*
       else {
-        CornerNumApproach = 0;
+        CornerNumApproach = 3;
+        LineTracking::FollowingLine(IR::Tracking(), LeftSpeed, RightSpeed, Task, CornerNumApproach);
       }
+      */
       
     }
 
@@ -756,8 +765,8 @@ void calculateRPMTask(void *pvPara)
                 0.0f}; // Kd
 
   /*Set the initial Target RPM Here*/
-  pid1.target_val = 150.0f;
-  pid2.target_val = 150.0f;
+  pid1.target_val = 250.0f;
+  pid2.target_val = 250.0f;
   /*----------------------------------------------------*/
   while (true)
   {
@@ -786,7 +795,7 @@ void calculateRPMTask(void *pvPara)
     // Serial.println(RightSpeed);
     /*----------------------------------------------------*/
     /*A delay must be added inside each User Task*/
-    vTaskDelay(20);
+    vTaskDelay(200);
   }
 }
 /*WE DO NOT USE THE CODE ABOVE*/
@@ -818,7 +827,7 @@ void Blink(void *pvPara) {
   Serial.println(Task);
   Serial.print("Current CornerNumApproach: ");
   Serial.println(CornerNumApproach);
-
+  vTaskDelay(20);
 
 
   /* Some cheeky code for ComputeAlgo

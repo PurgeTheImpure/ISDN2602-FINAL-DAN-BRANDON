@@ -1,57 +1,62 @@
 #include "LineTracking.hpp"
 
-#define turnTime90 700
-#define turnTime45 370
+#define turnTime90 510
+#define turnTime45 260
 
 void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t RightSpeed, int Task, int &CornerNumApproach){
   //Serial.println(getTagUID());
-  while(1) {
-    Motion::Rightwards(LeftSpeed, RightSpeed);
-    delay(15);
-  }
 
   //LIGHT CONTROL FOR TASK 2 3 4!!!!
   if (CornerNumApproach == -1) {
     Motor::Stop();
-    delay(100);
+    delay(150);
     return;
   }
 
   if (Task == 1 || Task == 2) {
     switch(CornerNumApproach) {
+
+      case 6: 
+        
+        Motion::Forwards(LeftSpeed, RightSpeed);
+        delay(200);
+        CornerNumApproach = 0;
+        return;
       
       case 2: 
         Motion::Rightwards(LeftSpeed, RightSpeed);
         delay(turnTime45);
         CornerNumApproach = 0;
-        break;
+        return;
       
       case 3: 
         Motion::Forwards(LeftSpeed, RightSpeed);
-        delay(turnTime45);
+        delay(turnTime90);
         CornerNumApproach = 0;
-        break;
+        return;
       
       case 4: 
         Motion::Forwards(LeftSpeed, RightSpeed);
         delay(turnTime45);
         CornerNumApproach = 0;
-        break;
+        return;
       
       case 5:
         Motor::Stop();
-        delay(3000);
+        delay(6000);
         CornerNumApproach = 0;
+        return;
         break;
 
       case 100:
         Motion::Boost(350, 365);
         delay(100);
-        Motion::Boost(650, 666);
+        Motion::Boost(750, 766);
         delay(800);
         Motor::Stop();
         delay(500);
         CornerNumApproach = 0;
+        return;
         break;
 
       default:
@@ -62,42 +67,49 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
 
   else if (Task == 3) {
 
-    if (startpt == 12 || startpt == 11) {
+    if (startpt == 12 || startpt == 11 ) {
       if(CornerNumApproach == 11 && startpt == 12) {
         Motion::Rightwards(LeftSpeed, RightSpeed);
         delay(turnTime90);
         CornerNumApproach = 0;
-          
+        return;
       }
 
       switch (CornerNumApproach) {
         
         case 6:
+          
           Motion::Forwards(LeftSpeed, RightSpeed);
-          delay(turnTime45);
+          delay(250);
+        
+        //Motion::Forwards(LeftSpeed, RightSpeed);
+        //delay(250);
           CornerNumApproach = 0;
-          break;
+          return;
 
         case 2:
           Motion::Forwards(LeftSpeed, RightSpeed);
           delay(turnTime45);
           CornerNumApproach = 0;
-          break;
+          return;
 
         case 1:
           Motor::Stop();
-          delay(3000);
+          delay(6000);
           CornerNumApproach = 0;
-          break;
+          return;
 
         case 100:
           Motion::Boost(350, 365);
           delay(100);
-          Motion::Boost(650, 666);
+          Motion::Boost(750, 766);
           delay(800);
           Motor::Stop();
           delay(500);
           CornerNumApproach = 0;
+          return;
+
+        default:
           break;
 
       }
@@ -108,34 +120,192 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
       switch (CornerNumApproach) {
         case 13:
           Motion::Forwards(LeftSpeed, RightSpeed);
-          delay(turnTime45);
+          delay(turnTime90);
           CornerNumApproach = 0;
-          break;
+          return;
         
         case 5:
           Motion::Forwards(LeftSpeed, RightSpeed);
-          delay(turnTime45);
+          delay(turnTime90);
           CornerNumApproach = 0;
-          break;
+          return;
+
+        case 90:
+          Motion::Leftwards(LeftSpeed, RightSpeed);
+          delay(turnTime90);
+          CornerNumApproach = 0;
+          return;
 
         case 1:
           Motor::Stop();
-          delay(3000);
+          delay(10000);
           CornerNumApproach = 0;
-          break;
+          return;
 
         case 100:
           Motion::Boost(350, 365);
           delay(100);
-          Motion::Boost(650, 666);
+          Motion::Boost(750, 766);
           delay(800);
           Motor::Stop();
           delay(500);
           CornerNumApproach = 0;
+          return;
+        default:
           break;
-
       }
     }
+  }
+
+  if (Task == 4) {
+    
+    if(startpt == 12) { // to 5
+      switch (CornerNumApproach) {
+        case 13:
+          Motion::Rightwards(LeftSpeed, RightSpeed);
+          delay(turnTime90);
+          CornerNumApproach = 0;
+          return;
+        
+        case 5:
+          Motor::Stop();
+          delay(10000);
+          CornerNumApproach = 0;
+          return;
+
+        case 100:
+          Motion::Boost(350, 365);
+          delay(100);
+          Motion::Boost(750, 766);
+          delay(800);
+          Motor::Stop();
+          delay(500);
+          CornerNumApproach = 0;
+          return;
+
+        default:
+          break;
+      }
+    }
+
+    else if (startpt == 13) { // to 6
+      switch (CornerNumApproach) {
+        case 11:
+          Motion::Rightwards(LeftSpeed, RightSpeed);
+          delay(turnTime90);
+          CornerNumApproach = 0;
+          return;
+
+        case 12:
+          Motion::Forwards(LeftSpeed, RightSpeed);
+          delay(turnTime45);
+          CornerNumApproach = 0;
+          return;
+        
+        case 6:
+          Motor::Stop();
+          delay(10000);
+          CornerNumApproach = 0;
+          return;
+
+        case 100:
+          Motion::Boost(350, 365);
+          delay(100);
+          Motion::Boost(750, 766);
+          delay(800);
+          Motor::Stop();
+          delay(500);
+          CornerNumApproach = 0;
+          return;
+
+        default:
+          break;
+      }
+
+    }
+
+    else if (startpt == 11) { // jump the gap
+
+      switch (CornerNumApproach) {
+
+        case 12:
+          Motion::Forwards(LeftSpeed, RightSpeed);
+          delay(turnTime45);
+          CornerNumApproach = 0;
+          return;
+        
+        case 13:
+          Motor::Stop();
+          delay(10000);
+          CornerNumApproach = 0;
+          return;
+
+        case 100:
+          Motion::Boost(350, 365);
+          delay(100);
+          Motion::Boost(750, 766);
+          delay(800);
+          Motor::Stop();
+          delay(500);
+          CornerNumApproach = 0;
+          return;
+
+        default:
+          break;
+      }
+
+    }
+
+    else if (startpt == 10 || startpt == 8) {
+
+      if (startpt == 10) {
+        if (CornerNumApproach == 9) {
+          Motion::Rightwards(LeftSpeed, RightSpeed);
+          delay(turnTime90);
+          CornerNumApproach = 0;
+          return;
+        }
+        else if (CornerNumApproach == 7) {
+          Motion::Forwards(LeftSpeed, RightSpeed);
+          delay(turnTime45);
+          CornerNumApproach = 0;
+          return;
+        }
+      }
+      else if (startpt == 8) {
+        if (CornerNumApproach == 7) {
+          Motion::Rightwards(LeftSpeed, RightSpeed);
+          delay(turnTime90);
+          CornerNumApproach = 0;
+          return;
+        }
+      }
+
+      switch (CornerNumApproach) {
+        case 4:
+          Motion::Leftwards(LeftSpeed, RightSpeed);
+          delay(850);
+          CornerNumApproach = 0;
+          return;
+
+        case 3:
+          Motion::Rightwards(LeftSpeed, RightSpeed);
+          delay(turnTime45);
+          CornerNumApproach = 0;
+          return;
+        
+        case 1:
+          Motor::Stop();
+          delay(10000);
+          CornerNumApproach = 0;
+          return;
+
+        default:
+          break;
+      }
+    }
+
+
   }
 
   //else if ()
@@ -153,11 +323,11 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
         
         while(IR::Tracking() != OnTrack) {
         Motion::Fol_Leftwards(LeftSpeed, RightSpeed);
-        delay(50);
+        delay(5);
         }
         delay(1);
         Motion::Fol_Rightwards(LeftSpeed, RightSpeed);
-        delay(5);
+        delay(10);
         
       break;
 
@@ -167,11 +337,11 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
           
         while(IR::Tracking() != OnTrack) {
         Motion::Fol_Rightwards(LeftSpeed, RightSpeed);
-        delay(50);
+        delay(5);
         }
         delay(1);
         Motion::Fol_Leftwards(LeftSpeed, RightSpeed);
-        delay(5);
+        delay(10);
         
       break;
 
