@@ -329,7 +329,7 @@ void ComputeAlgoTask(void *pvPara) {
 
     while (startpt == Start_point && endpt == End_point ) {
       Serial.println("No Change In Path");
-      vTaskDelay(2000);
+      vTaskDelay(4000);
     }
 
   // MAKING IT ZERO INDEXED!!
@@ -447,7 +447,7 @@ void RFIDTagReader(void *pvPara) {
         CornerNumApproach = 9;
       else if (currenttagUID == "90176991" || currenttagUID == "101e6991")
         CornerNumApproach = 10;
-      else if (currenttagUID == "b02b6891" || currenttagUID == "30236891" || currenttagUID == "b0236891")
+      else if (currenttagUID == "b02b6891" || currenttagUID == "c0226891" || currenttagUID == "b0236891")
         CornerNumApproach = 11;
       else if (currenttagUID == "00d76791" || currenttagUID == "20da6791" || currenttagUID == "a0d96791")
         CornerNumApproach = 12;
@@ -458,6 +458,9 @@ void RFIDTagReader(void *pvPara) {
       // Boost code for bridge
       else if (currenttagUID == "20db6791" || currenttagUID == "a0da6791" || currenttagUID == "702b6891" || currenttagUID == "802a6891" || currenttagUID == "f0296891") 
         CornerNumApproach = 100;
+      // Task 1 light junction
+      else if (currenttagUID == "50466791" || currenttagUID == "403c6791" || currenttagUID == "c03c6791")
+        CornerNumApproach = 14;
       // Default
       else
         CornerNumApproach = 0;
@@ -470,7 +473,7 @@ void RFIDTagReader(void *pvPara) {
     // Serial.println(currenttagUID);
     /*----------------------------------------------------*/
     /*A delay must be added inside each User Task*/
-    vTaskDelay(1);
+    vTaskDelay(2);
       
     }
 }
@@ -489,8 +492,15 @@ void LineTrackingTask(void *pvPara) {
 
   /*DO*/
   while(true){
-    
-    
+    //if (Task == 2 || Task == 3 || Task == 4) {
+      while (Exam_State == 0) {
+        //CornerNumApproach = -1;
+        Serial.println("not started stopped. -1");
+        int gay = -1;
+        LineTracking::FollowingLine(IR::Tracking(), LeftSpeed, RightSpeed, Task, gay);
+        vTaskDelay(300);
+      }
+    //}
     LineTracking::FollowingLine(IR::Tracking(), LeftSpeed, RightSpeed, Task, CornerNumApproach);
     // delay(1);
 
@@ -534,9 +544,11 @@ void FireBaseTask(void *pvPara) {
     // TRAFFIC LIGHT ADJUSTMENTS!
     if (Task == 2) {
       // 0 = red || 1 = green || 2 = yellow
-      if (intersectionLights.intersectionLights[1].state == 0) {
-        CornerNumApproach = -1;
-        delay(500);
+      if (CornerNumApproach == 3 || CornerNumApproach == 4) {
+        if (intersectionLights.intersectionLights[1].state == 0) {
+          CornerNumApproach = -1;
+          delay(500);
+        }
       }
       else {
         CornerNumApproach = 0;
@@ -559,7 +571,7 @@ void FireBaseTask(void *pvPara) {
     */
     //---------------------------------
     /*A delay must be added inside each User Task*/
-    vTaskDelay(0);
+    vTaskDelay(5);
   }
 }
 
@@ -802,6 +814,11 @@ void Blink(void *pvPara) {
   digitalWrite(LED1, LOW);
   vTaskDelay(200);
 
+  Serial.print("Current Task: ");
+  Serial.println(Task);
+  Serial.print("Current CornerNumApproach: ");
+  Serial.println(CornerNumApproach);
+
 
 
   /* Some cheeky code for ComputeAlgo
@@ -916,12 +933,12 @@ Serial.println("---------Initialized---------");
   Core 1: online task (Firebase)*/
   /*xTaskCreatePinnedtoCore: pin the specific task to desired core (esp32 is a dual cores MCU)
   xTaskCreatePinnedToCore(  void((void *pvPara)), Text for the task, Stack (Min. is 1024), const para. , &TaskTCB, uxPriority, Core )*/
-  xTaskCreatePinnedToCore(FireBaseTask, "FireBase", 10000, NULL, 2, &FireBaseTaskTCB, 0);
+  xTaskCreatePinnedToCore(FireBaseTask, "FireBase", 10000, NULL, 3, &FireBaseTaskTCB, 0);
   // xTaskCreatePinnedToCore(Wifitask, "Connect to Wifi", 10000, NULL, 3, &WifitaskTCB, 0);
   xTaskCreatePinnedToCore(Blink, "Blink", 2048, NULL, 1, &BlinkTaskTCB, 1);
   xTaskCreatePinnedToCore(RFIDTagReader, "RFIDReader", 2048, NULL, 3, &RFIDTagReaderTCB, 1);
-  xTaskCreatePinnedToCore(LineTrackingTask, "LineTracking", 10000, NULL, 2, &LineTrackingTaskTCB, 1);
-  xTaskCreatePinnedToCore(calculateRPMTask, "calculteRPM", 10000, NULL, 1, &calculateRPMTaskTCB, 1);
+  xTaskCreatePinnedToCore(LineTrackingTask, "LineTracking", 10000, NULL, 3, &LineTrackingTaskTCB, 1);
+  //xTaskCreatePinnedToCore(calculateRPMTask, "calculteRPM", 10000, NULL, 1, &calculateRPMTaskTCB, 1);
   xTaskCreatePinnedToCore(ComputeAlgoTask, "ComputeAlgo", 10000, NULL, 1, &ComputeAlgoTaskTCB, 1);
 /*Adding a small delay for the setup()*/
 

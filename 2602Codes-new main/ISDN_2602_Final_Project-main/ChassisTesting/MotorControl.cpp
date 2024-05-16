@@ -70,26 +70,26 @@ void Motor::Moving_Clockwise(uint16_t Speed, uint8_t Wheel){
   if(Wheel == 1){
     ledcWrite(PWM_CH0, Speed);
     ledcWrite(PWM_CH1, 0);
-    //delay(1);
+    delay(1);
   }
   if(Wheel == 2){
     ledcWrite(PWM_CH2, Speed);
     ledcWrite(PWM_CH3, 0);
-    //delay(1);
+    delay(1);
   }
 };
 
 void Motor::Moving_AntiClockwise(uint16_t Speed, uint8_t Wheel){
-  if(Wheel == 1 ){
+  if(Wheel == 1){
     ledcWrite(PWM_CH0, 0);
     ledcWrite(PWM_CH1, Speed);
-    //delay(10);
+    delay(1);
   }
 
   if(Wheel == 2){
     ledcWrite(PWM_CH2, 0);
     ledcWrite(PWM_CH3, Speed);
-    //delay(1);
+    delay(1);
   }
 };
 
@@ -138,24 +138,24 @@ float Motor::RPMtoPWM(float TargetRPM, uint8_t Wheel){
 
 // More Speeds for fine tuning for me //
 //Forards
-volatile float FW_LeftSpeed = 220.0f; // 0.0f - 1024.0f
-volatile float FW_RightSpeed = 218.0f; // 0.0f - 1024.0f
+volatile float FW_LeftSpeed = 280.0f; // 0.0f - 1024.0f
+volatile float FW_RightSpeed = 285.0f; // 0.0f - 1024.0f
 // Backwards
-volatile float BW_LeftSpeed = 190.0f; // 0.0f - 1024.0f
-volatile float BW_RightSpeed = 190.0f; // 0.0f - 1024.0f
+volatile float BW_LeftSpeed = 290.0f; // 0.0f - 1024.0f
+volatile float BW_RightSpeed = 290.0f; // 0.0f - 1024.0f
 //Turn Right
-volatile float TR_LeftSpeed = 600.0f; // 0.0f - 1024.0f
-volatile float TR_RightSpeed = 250.0f; // 0.0f - 1024.0f
+volatile float TR_LeftSpeed = 670.0f; // 0.0f - 1024.0f
+volatile float TR_RightSpeed = 350.0f; // 0.0f - 1024.0f
 //Turn Left
-volatile float TL_LeftSpeed = 220.0f; // 0.0f - 1024.0f
-volatile float TL_RightSpeed = 600.0f; // 0.0f - 1024.0f
+volatile float TL_LeftSpeed = 350.0f; // 0.0f - 1024.0f
+volatile float TL_RightSpeed = 670.0f; // 0.0f - 1024.0f
 
 // Follow line code, small turns only
-volatile float FolRT_LeftSpeed = 500.0f; // 0.0f - 1024.0f
-volatile float FolRT_RightSpeed = 250.0f; // 0.0f - 1024.0f
+volatile float FolRT_LeftSpeed = 600.0f; // 0.0f - 1024.0f
+volatile float FolRT_RightSpeed = 500.0f; // 0.0f - 1024.0f
 
-volatile float FolLT_LeftSpeed = 250.0f; // 0.0f - 1024.0f
-volatile float FolLT_RightSpeed = 510.0f; // 0.0f - 1024.0f
+volatile float FolLT_LeftSpeed = 500.0f; // 0.0f - 1024.0f
+volatile float FolLT_RightSpeed = 620.0f; // 0.0f - 1024.0f
 
 
 void Motion::Forwards(uint16_t LeftSpeed, uint16_t RightSpeed){
@@ -166,7 +166,7 @@ void Motion::Forwards(uint16_t LeftSpeed, uint16_t RightSpeed){
 
 void Motion::Boost(uint16_t B_LeftSpeed, uint16_t B_RightSpeed){
   Servo::TrunDeg(92);
-  Motor::Moving_AntiClockwise(B_LeftSpeed , LeftWheel);
+  Motor::Moving_AntiClockwise(B_LeftSpeed, LeftWheel);
   Motor::Moving_AntiClockwise(B_RightSpeed, RightWheel);
   Servo::TrunDeg(92);
 };
