@@ -459,7 +459,7 @@ void RFIDTagReader(void *pvPara) {
       else if (currenttagUID == "50466791" || currenttagUID == "403c6791" || currenttagUID == "c03c6791")
         CornerNumApproach = 14;
       // Boost code for bridge
-      else if (currenttagUID == "20db6791" || currenttagUID == "a0da6791" || currenttagUID == "702b6891" || currenttagUID == "802a6891" || currenttagUID == "f0296891") 
+      else if (currenttagUID == "a0da6791" || currenttagUID == "60106891"|| currenttagUID == "702b6891" || currenttagUID == "802a6891" || currenttagUID == "f0296891") 
         CornerNumApproach = 100;
       // Task 1 light junction
       else if (currenttagUID == "a0cb6791" || currenttagUID == "30d16791")

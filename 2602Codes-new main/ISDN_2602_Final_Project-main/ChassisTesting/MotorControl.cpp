@@ -144,18 +144,18 @@ volatile float FW_RightSpeed = 318.0f; // 0.0f - 1024.0f
 volatile float BW_LeftSpeed = 290.0f; // 0.0f - 1024.0f
 volatile float BW_RightSpeed = 290.0f; // 0.0f - 1024.0f
 //Turn Right
-volatile float TR_LeftSpeed = 720.0f; // 0.0f - 1024.0f
+volatile float TR_LeftSpeed = 710.0f; // 0.0f - 1024.0f
 volatile float TR_RightSpeed = 350.0f; // 0.0f - 1024.0f
 //Turn Left
 volatile float TL_LeftSpeed = 350.0f; // 0.0f - 1024.0f
 volatile float TL_RightSpeed = 680.0f; // 0.0f - 1024.0f
 
 // Follow line code, small turns only
-volatile float FolRT_LeftSpeed = 580.0f; // 0.0f - 1024.0f
+volatile float FolRT_LeftSpeed = 590.0f; // 0.0f - 1024.0f
 volatile float FolRT_RightSpeed = 320.0f; // 0.0f - 1024.0f
 
 volatile float FolLT_LeftSpeed = 320.0f; // 0.0f - 1024.0f
-volatile float FolLT_RightSpeed = 560.0f; // 0.0f - 1024.0f
+volatile float FolLT_RightSpeed = 580.0f; // 0.0f - 1024.0f
 
 
 void Motion::Forwards(uint16_t LeftSpeed, uint16_t RightSpeed){

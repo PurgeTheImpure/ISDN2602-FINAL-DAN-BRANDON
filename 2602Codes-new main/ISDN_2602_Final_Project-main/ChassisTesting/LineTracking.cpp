@@ -89,13 +89,13 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
 
         case 2:
           Motion::Forwards(LeftSpeed, RightSpeed);
-          delay(turnTime45);
+          delay(turnTime90);
           CornerNumApproach = 0;
           return;
 
         case 1:
           Motor::Stop();
-          delay(6000);
+          delay(10000);
           CornerNumApproach = 0;
           return;
 
@@ -176,8 +176,8 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
         case 100:
           Motion::Boost(350, 365);
           delay(100);
-          Motion::Boost(750, 766);
-          delay(800);
+          Motion::Boost(680, 770);
+          delay(700);
           Motor::Stop();
           delay(500);
           CornerNumApproach = 0;
@@ -211,8 +211,8 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
         case 100:
           Motion::Boost(350, 365);
           delay(100);
-          Motion::Boost(750, 766);
-          delay(800);
+          Motion::Boost(700, 746);
+          delay(700);
           Motor::Stop();
           delay(500);
           CornerNumApproach = 0;
@@ -243,8 +243,8 @@ void LineTracking::FollowingLine( uint8_t Case, uint16_t LeftSpeed, uint16_t Rig
         case 100:
           Motion::Boost(350, 365);
           delay(100);
-          Motion::Boost(750, 766);
-          delay(800);
+          Motion::Boost(700, 746);
+          delay(700);
           Motor::Stop();
           delay(500);
           CornerNumApproach = 0;
